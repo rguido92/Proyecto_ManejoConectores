@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch WebServer",
+      "request": "launch",
+      "mainClass": "server.WebServer",
+      "projectName": "proyecto-manejo-conectores",
+      "env": {
+        "DB_NAME": "school",
+        "DB_HOST": "localhost",
+        "DB_USER": "root",
+        "DB_PASS": "abc123"
+      }
+    }
+  ]
+}

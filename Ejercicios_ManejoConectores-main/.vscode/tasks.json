@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Maven: compile",
+      "type": "shell",
+      "command": "mvn -f ${workspaceFolder}/Ejercicios_ManejoConectores-main/pom.xml clean compile",
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": [ "$maven$" ]
+    },
+    {
+      "label": "Maven: test",
+      "type": "shell",
+      "command": "mvn -f ${workspaceFolder}/Ejercicios_ManejoConectores-main/pom.xml test",
+      "group": "test",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": [ "$maven$" ]
+    },
+    {
+      "label": "Maven: run WebServer",
+      "type": "shell",
+      "command": "mvn -f ${workspaceFolder}/Ejercicios_ManejoConectores-main/pom.xml exec:java -Dexec.mainClass=\"server.WebServer\"",
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "new" }
+    }
+  ]
+}
