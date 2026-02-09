@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>App Students - Web UI</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <h1>Listado de estudiantes</h1>
+  <div id="app">
+    <div id="msg" aria-live="polite" style="margin-bottom:12px;color:green"></div>
+    <div id="list"></div>
+
+    <h2>Añadir / Editar estudiante</h2>
+    <form id="studentForm">
+      <label>ID: <input id="id" required></label><br>
+      <label>Nombre: <input id="name" required></label><br>
+      <label>Apellido: <input id="surname" required></label><br>
+      <label>Edad: <input id="age" type="number" required></label><br>
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</body>
+</html>

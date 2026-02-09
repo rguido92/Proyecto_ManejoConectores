@@ -65,20 +65,15 @@ public class ManageStudents {
     }
 
     ArrayList<Student> getStudents() {
-        students  = new ArrayList<Student>();
+        students = new ArrayList<Student>();
         try {
             query = "SELECT * FROM STUDENT;";
             ps = connection.prepareStatement(query);
             resultSet = ps.executeQuery();
-            int columns = resultSet.getMetaData().getColumnCount();
             while (resultSet.next()) {
-                for (int i = 1; i <= columns; i++) {
-                    System.out.printf("%s\t", resultSet.getString(i));
-                    student = new Student(resultSet.getString(i), resultSet.getString(i), resultSet.getString(i),
-                            resultSet.getInt(i));
-                    students.add(student);
-                }
-                System.out.println();
+                student = new Student(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+                        resultSet.getInt(4));
+                students.add(student);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,6 +146,27 @@ public class ManageStudents {
             return false;
         }
 
+    }
+
+    /**
+     * Server-friendly modify method: updates student with given id using provided Student data.
+     */
+    public boolean modifyStudent(String id, Student newStudent) {
+        query = "UPDATE STUDENT SET ID = ?, NAME = ?, SURNAME = ?, AGE = ? WHERE ID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, newStudent.getId());
+            ps.setString(2, newStudent.getName());
+            ps.setString(3, newStudent.getSurname());
+            ps.setInt(4, newStudent.getAge());
+            ps.setString(5, id);
+            numFilasAfectadas = ps.executeUpdate();
+            System.out.println("Filas afectadas = " + numFilasAfectadas);
+            return numFilasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     Student createStudent() {
