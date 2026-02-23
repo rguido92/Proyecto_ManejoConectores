@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema de Gestión Integral - Biblioteca</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>📚 Sistema de Gestión Integral - Biblioteca</h1>
+      <p class="subtitle">Plataforma de administración de estudiantes, socios, libros, alquileres y empleados</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Navigation Tabs -->
+    <nav class="tabs-nav">
+      <button class="tab-button active" onclick="switchTab('estudiantes')">👨‍🎓 Estudiantes</button>
+      <button class="tab-button" onclick="switchTab('socios')">👥 Socios</button>
+      <button class="tab-button" onclick="switchTab('libros')">📖 Libros</button>
+      <button class="tab-button" onclick="switchTab('alquileres')">🔄 Alquileres</button>
+      <button class="tab-button" onclick="switchTab('empleados')">💼 Empleados</button>
+    </nav>
+
+    <main class="main-content">
+      <!-- ========== ESTUDIANTES TAB ========== -->
+      <div id="estudiantes-tab" class="tab-content active">
+        <section class="section">
+          <h2>📋 Listado de Estudiantes</h2>
+          <div id="msg-estudiantes" class="message" aria-live="polite"></div>
+          <div class="table-container">
+            <table id="estudiantesTable" class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Edad</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="estudiantesTableBody">
+                <tr><td colspan="5" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="estudiantesEmptyState" class="empty-state" style="display:none;">
+            <p>📭 No hay estudiantes registrados</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>➕ Agregar o Editar Estudiante</h2>
+          <form id="estudianteForm" class="form">
+            <div id="idGroupEditEstudiante" class="form-row" style="display:none;">
+              <div class="form-group">
+                <label for="idEstudiante">ID del Estudiante (Auto-generado)</label>
+                <input type="text" id="idEstudiante" class="input" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nameEstudiante">Nombre *</label>
+                <input type="text" id="nameEstudiante" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="surnameEstudiante">Apellido *</label>
+                <input type="text" id="surnameEstudiante" class="input" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ageEstudiante">Edad *</label>
+                <input type="number" id="ageEstudiante" class="input" min="1" max="120" required>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="submitEstudiante" class="btn btn-primary">💾 Guardar Estudiante</button>
+              <button type="button" class="btn btn-secondary" onclick="clearEstudianteForm()">🔄 Limpiar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- ========== SOCIOS TAB ========== -->
+      <div id="socios-tab" class="tab-content">
+        <section class="section">
+          <h2>📋 Listado de Socios</h2>
+          <div id="msg-socios" class="message" aria-live="polite"></div>
+          <div class="table-container">
+            <table id="sociosTable" class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="sociosTableBody">
+                <tr><td colspan="5" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="sociosEmptyState" class="empty-state" style="display:none;">
+            <p>📭 No hay socios registrados</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>➕ Agregar o Editar Socio</h2>
+          <form id="socioForm" class="form">
+            <div id="idGroupEditSocio" class="form-row" style="display:none;">
+              <div class="form-group">
+                <label for="idSocio">ID del Socio (Auto-generado)</label>
+                <input type="text" id="idSocio" class="input" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nameSocio">Nombre *</label>
+                <input type="text" id="nameSocio" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="surnameSocio">Apellido *</label>
+                <input type="text" id="surnameSocio" class="input" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="emailSocio">Email *</label>
+                <input type="email" id="emailSocio" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="telefonoSocio">Teléfono</label>
+                <input type="tel" id="telefonoSocio" class="input">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="submitSocio" class="btn btn-primary">💾 Guardar Socio</button>
+              <button type="button" class="btn btn-secondary" onclick="clearSocioForm()">🔄 Limpiar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- ========== LIBROS TAB ========== -->
+      <div id="libros-tab" class="tab-content">
+        <section class="section">
+          <h2>📖 Todos los Libros</h2>
+          <div id="msg-libros" class="message" aria-live="polite"></div>
+          <div class="subtabs">
+            <button class="subtab-button active" onclick="switchLibroSubTab('todos')">Todos</button>
+            <button class="subtab-button" onclick="switchLibroSubTab('disponibles')">📚 Disponibles</button>
+            <button class="subtab-button" onclick="switchLibroSubTab('alquilados')">🔴 Alquilados</button>
+          </div>
+          <div class="table-container">
+            <table id="librosTable" class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Autor</th>
+                  <th>ISBN</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="librosTableBody">
+                <tr><td colspan="6" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>➕ Agregar o Editar Libro</h2>
+          <form id="libroForm" class="form">
+            <div id="idGroupEditLibro" class="form-row" style="display:none;">
+              <div class="form-group">
+                <label for="idLibro">ID del Libro (Auto-generado)</label>
+                <input type="text" id="idLibro" class="input" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tituloLibro">Título *</label>
+                <input type="text" id="tituloLibro" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="autorLibro">Autor *</label>
+                <input type="text" id="autorLibro" class="input" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="isbnLibro">ISBN</label>
+                <input type="text" id="isbnLibro" class="input">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="submitLibro" class="btn btn-primary">💾 Guardar Libro</button>
+              <button type="button" class="btn btn-secondary" onclick="clearLibroForm()">🔄 Limpiar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- ========== ALQUILERES TAB ========== -->
+      <div id="alquileres-tab" class="tab-content">
+        <section class="section">
+          <h2>🔄 Alquileres</h2>
+          <div id="msg-alquileres" class="message" aria-live="polite"></div>
+          <div class="subtabs">
+            <button class="subtab-button active" onclick="switchAlquilerSubTab('activos')">Activos</button>
+            <button class="subtab-button" onclick="switchAlquilerSubTab('historial')">📋 Historial</button>
+          </div>
+          <div class="table-container">
+            <table id="alquileresTable" class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Socio</th>
+                  <th>Libro</th>
+                  <th>Fecha Alquiler</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="alquileresTableBody">
+                <tr><td colspan="6" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>➕ Registrar Alquiler</h2>
+          <form id="alquilerForm" class="form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="socioAlquiler">Socio *</label>
+                <select id="socioAlquiler" class="input" required></select>
+              </div>
+              <div class="form-group">
+                <label for="libroAlquiler">Libro *</label>
+                <select id="libroAlquiler" class="input" required></select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="submitAlquiler" class="btn btn-primary">💾 Registrar Alquiler</button>
+              <button type="button" class="btn btn-secondary" onclick="clearAlquilerForm()">🔄 Limpiar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- ========== EMPLEADOS TAB ========== -->
+      <div id="empleados-tab" class="tab-content">
+        <section class="section">
+          <h2>💼 Listado de Empleados</h2>
+          <div id="msg-empleados" class="message" aria-live="polite"></div>
+          <div class="table-container">
+            <table id="empleadosTable" class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Puesto</th>
+                  <th>Email</th>
+                  <th>Salario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="empleadosTableBody">
+                <tr><td colspan="6" class="text-center">Cargando...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="empleadosEmptyState" class="empty-state" style="display:none;">
+            <p>📭 No hay empleados registrados</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>➕ Agregar o Editar Empleado</h2>
+          <form id="empleadoForm" class="form">
+            <div id="idGroupEditEmpleado" class="form-row" style="display:none;">
+              <div class="form-group">
+                <label for="idEmpleado">ID del Empleado (Auto-generado)</label>
+                <input type="text" id="idEmpleado" class="input" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nameEmpleado">Nombre *</label>
+                <input type="text" id="nameEmpleado" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="surnameEmpleado">Apellido *</label>
+                <input type="text" id="surnameEmpleado" class="input" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="emailEmpleado">Email *</label>
+                <input type="email" id="emailEmpleado" class="input" required>
+              </div>
+              <div class="form-group">
+                <label for="puestoEmpleado">Puesto *</label>
+                <input type="text" id="puestoEmpleado" class="input" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="salarioEmpleado">Salario</label>
+                <input type="text" id="salarioEmpleado" class="input">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="submitEmpleado" class="btn btn-primary">💾 Guardar Empleado</button>
+              <button type="button" class="btn btn-secondary" onclick="clearEmpleadoForm()">🔄 Limpiar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 Sistema de Gestión Integral de Biblioteca | Desarrollado con ❤️</p>
+  </footer>
+</body>
+</html>

@@ -20,32 +20,51 @@ public class ManageStudents {
     private Student student;
     private String query;
     private Scanner sc;
+    private boolean useDatabase = false; // Flag to indicate if database is available
 
-    void openConnection(String bd, String server, String user, String password) {
+    public ManageStudents() {
+        students = new ArrayList<>();
+        // Initialize with sample data
+        students.add(new Student("s001", "Juan", "García", 20));
+        students.add(new Student("s002", "María", "López", 21));
+        students.add(new Student("s003", "Carlos", "Martínez", 22));
+    }
+
+    public void openConnection(String bd, String server, String user, String password) {
         try {
             String url = String.format("jdbc:mysql://%s:3306/%s", server, bd);
             this.connection = DriverManager.getConnection(url, user, password);
             if (connection != null) {
-                System.out.println("Conectado");
-
-            } else
-                System.out.println("No se ha podido conectar");
+                useDatabase = true;
+                System.out.println("Conectado a base de datos");
+            } else {
+                useDatabase = false;
+                System.out.println("No se ha podido conectar, usando almacenamiento en memoria");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            useDatabase = false;
+            System.out.println("No se pudo conectar a base de datos, usando almacenamiento en memoria");
         }
     }
 
-    void closeConnection() {
-
-        try {
-            this.connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void closeConnection() {
+        if (connection != null) {
+            try {
+                this.connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    boolean addStudent(Student student) {
+    public boolean addStudent(Student student) {
+        // If no database, use in-memory storage
+        if (!useDatabase) {
+            students.add(student);
+            return true;
+        }
 
+        // Otherwise use JDBC
         query = "INSERT INTO STUDENT VALUES(?,?,?,?)";
         try {
             ps = connection.prepareStatement(query);
@@ -57,14 +76,16 @@ public class ManageStudents {
             System.out.println("Filas afectadas = " + numFilasAfectadas);
             return true;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
-
     }
 
-    ArrayList<Student> getStudents() {
+    public ArrayList<Student> getStudents() {
+        if (!useDatabase) {
+            return new ArrayList<>(students);
+        }
+
         students = new ArrayList<Student>();
         try {
             query = "SELECT * FROM STUDENT;";
@@ -81,7 +102,10 @@ public class ManageStudents {
         return students;
     }
 
-    Student getStudent(String id) {
+    public Student getStudent(String id) {
+        if (!useDatabase) {
+            return students.stream().filter(s -> s.getId().equals(id)).findFirst().orElse(null);
+        }
 
         query = "SELECT * FROM STUDENT WHERE ID=?";
         try {
@@ -92,7 +116,6 @@ public class ManageStudents {
             while (resultSet.next()) {
                 student = new Student(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
                         resultSet.getInt(4));
-
                 return student;
             }
             System.out.println("Filas afectadas = " + numFilasAfectadas);
@@ -105,7 +128,11 @@ public class ManageStudents {
         return student;
     }
 
-    boolean deleteStudent(String id) {
+    public boolean deleteStudent(String id) {
+        if (!useDatabase) {
+            return students.removeIf(s -> s.getId().equals(id));
+        }
+
         query = "DELETE FROM STUDENT WHERE ID= ?";
         try {
             ps = connection.prepareStatement(query);
@@ -114,11 +141,9 @@ public class ManageStudents {
             System.out.println("Filas afectadas = " + numFilasAfectadas);
             return true;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
-
     }
 
     boolean modifyStudent() {
@@ -141,17 +166,28 @@ public class ManageStudents {
             return true;
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
-
     }
 
     /**
      * Server-friendly modify method: updates student with given id using provided Student data.
      */
     public boolean modifyStudent(String id, Student newStudent) {
+        if (!useDatabase) {
+            // Update in-memory storage
+            for (int i = 0; i < students.size(); i++) {
+                if (students.get(i).getId().equals(id)) {
+                    // Keep original ID if 'from' id parameter is different
+                    newStudent.setId(newStudent.getId() != null && !newStudent.getId().isEmpty() ? newStudent.getId() : id);
+                    students.set(i, newStudent);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         query = "UPDATE STUDENT SET ID = ?, NAME = ?, SURNAME = ?, AGE = ? WHERE ID = ?";
         try {
             ps = connection.prepareStatement(query);

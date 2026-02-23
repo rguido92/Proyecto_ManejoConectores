@@ -36,7 +36,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
                 <directory>web</directory>
@@ -51,6 +50,8 @@
                 </includes>
             </resource>
         </resources>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -58,6 +59,9 @@
                 <version>3.8.1</version>
                 <configuration>
                     <release>11</release>
+                    <excludes>
+                        <exclude>test/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
