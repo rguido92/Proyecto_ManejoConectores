@@ -757,3 +757,24 @@ document.getElementById('empleadoForm')?.addEventListener('submit', async (e) =>
 window.addEventListener('load', () => {
   loadEstudiantes();
 });
+
+// ── React integration toggles ────────────────────────────────────────────────
+function switchToReact() {
+  const container = document.querySelector('.container');
+  if (container) container.style.display = 'none';
+  const root = document.getElementById('react-root');
+  if (root) root.style.display = 'block';
+  if (window.mountBiblioteca) {
+    try { window.mountBiblioteca(); } catch (e) { console.error('mountBiblioteca error', e); }
+  }
+}
+
+function switchFromReact() {
+  const container = document.querySelector('.container');
+  if (container) container.style.display = 'block';
+  const root = document.getElementById('react-root');
+  if (root) root.style.display = 'none';
+}
+
+window.switchToReact = switchToReact;
+window.switchFromReact = switchFromReact;

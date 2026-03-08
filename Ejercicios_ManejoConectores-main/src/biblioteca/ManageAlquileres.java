@@ -27,7 +27,7 @@ public class ManageAlquileres {
 
     public void openConnection(String bd, String host, String user, String password) {
         try {
-            String url = String.format("jdbc:mysql://%s:3306/%s", host, bd);
+            String url = String.format("jdbc:postgresql://%s:5432/%s", host, bd);
             this.connection = DriverManager.getConnection(url, user, password);
             useDatabase = true;
             System.out.println("✅ ManageAlquileres: Conectado a BD");

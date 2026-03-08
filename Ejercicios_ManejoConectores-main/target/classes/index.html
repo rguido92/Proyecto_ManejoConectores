@@ -6,6 +6,10 @@
   <title>Sistema de Gestión Integral - Biblioteca</title>
   <link rel="stylesheet" href="/style.css">
   <script defer src="/app.js"></script>
+  <!-- React + Babel (in-browser transpile) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
   <header class="header">
@@ -23,6 +27,7 @@
       <button class="tab-button" onclick="switchTab('libros')">📖 Libros</button>
       <button class="tab-button" onclick="switchTab('alquileres')">🔄 Alquileres</button>
       <button class="tab-button" onclick="switchTab('empleados')">💼 Empleados</button>
+      <button class="tab-button" onclick="switchToReact()">📚 Biblioteca (React)</button>
     </nav>
 
     <main class="main-content">
@@ -330,6 +335,11 @@
       </div>
     </main>
   </div>
+
+  <!-- React root (hidden until user opens the React app) -->
+  <div id="react-root" style="display:none; padding:24px;"></div>
+
+  <script type="text/babel" src="/biblioteca.jsx"></script>
 
   <footer class="footer">
     <p>&copy; 2026 Sistema de Gestión Integral de Biblioteca | Desarrollado con ❤️</p>

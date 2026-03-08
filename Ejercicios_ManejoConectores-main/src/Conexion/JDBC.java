@@ -10,7 +10,7 @@ public class JDBC {
     private static Connection connection;
     private static String bd, server, user, password;
 
-    String url = String.format("jdbc:mysql://%s:3306/%s", server, bd);
+            String url = String.format("jdbc:postgresql://%s:5432/%s", server, bd);
     private DatabaseMetaData metadatos;
     private ResultSet rsp;
 
@@ -39,7 +39,7 @@ public class JDBC {
             JDBC.server = server;
             JDBC.user = user;
             JDBC.password = password;
-            String url = String.format("jdbc:mysql://%s:3306/%s", server, bd);
+    String url = String.format("jdbc:postgresql://%s:5432/%s", server, bd);
             connection = DriverManager.getConnection(url, user, password);
             if (this.connection != null) {
                 System.out.println("Conectado a " + bd + " en " + server);

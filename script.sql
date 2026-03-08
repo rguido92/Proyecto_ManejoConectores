@@ -1,6 +1,8 @@
--- Crear base de datos
+-- Crear base de datos (ejecutar desde pgAdmin o psql)
 CREATE DATABASE proyecto_conectores;
-USE proyecto_conectores;
+-- En PostgreSQL no existe el comando USE; seleccione la base de datos "proyecto_conectores"
+-- en pgAdmin4 antes de ejecutar el resto del script.
+
 
 -- Tabla de Estudiantes
 CREATE TABLE estudiantes (
@@ -26,7 +28,7 @@ CREATE TABLE libros (
   titulo VARCHAR(200) NOT NULL,
   autor VARCHAR(100) NOT NULL,
   isbn VARCHAR(20),
-  disponible BOOLEAN DEFAULT 1
+  disponible BOOLEAN DEFAULT TRUE
 );
 
 -- Tabla de Alquileres
